@@ -5,8 +5,9 @@ set eof of newFile to 0
 
 write "Item Name, Status, Due Date, Completion Date" & linefeed to newFile
 
-tell application "Things" to activate
 tell application "Things"
+	activate
+	log completed now
 	set AreaList to {"Inbox", "Today", "Next", "Scheduled", "Someday", "Projects"}
 	repeat with AreaItem in AreaList
 		write AreaItem & ":" & linefeed to newFile
@@ -16,9 +17,20 @@ tell application "Things"
 			set todoCompletionDate to completion date of toDo
 			set todoDueDate to due date of toDo
 			set todoStatus to status of toDo
+			#sub out for constants
+			if todoStatus is open then
+				set prtodoStatus to "open"
+			end if
+			if prtodoStatus is completed then
+				set prtodoStatus to "completed"
+			end if
+			
+			if todoStatus is missing value then
+				set todoStatus to "unknown"
+			end if
 			if todoCompletionDate is missing value then
 				set todoCompletionDate to "''"
-			else 
+			else
 				set todoCompletionDate to short date string of todoCompletionDate
 			end if
 			if todoDueDate is missing value then
@@ -35,6 +47,13 @@ tell application "Things"
 					set prtodoCompletionDate to completion date of projectToDo
 					set prtodoDueDate to due date of projectToDo
 					set prtodoStatus to status of projectToDo
+					#sub out for constants
+					if prtodoStatus is open then
+						set prtodoStatus to "open"
+					end if
+					if prtodoStatus is completed then
+						set prtodoStatus to "completed"
+					end if
 					if prtodoCompletionDate is missing value then
 						set prtodoCompletionDate to "''"
 					else
