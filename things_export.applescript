@@ -19,10 +19,9 @@ tell application "Things"
 			set todoStatus to status of toDo
 			#sub out for constants
 			if todoStatus is open then
-				set prtodoStatus to "open"
-			end if
-			if prtodoStatus is completed then
-				set prtodoStatus to "completed"
+				set todoStatus to "open"
+			else if todoStatus is completed then
+				set todoStatus to "completed"
 			end if
 			
 			if todoStatus is missing value then
